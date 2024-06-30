@@ -10,14 +10,14 @@ If all ships are found faster than your opponent, you win.
  otherwise you will lose
 
  Designation:
- "." = empty space
- "X" = ship hit by bullet
- "O" = miss because it didn't hit the ship.
- "@" = the ship that is yours
+ '.' = empty space
+ 'X' = ship hit by bullet
+ 'O' = miss because it didn't hit the ship.
+ '@' = the ship that is yours
 """
 class BattleshipGame:
 
-    def__init__(self, grid_size):
+    def __init__(self, grid_size):
         self.grid_size = grid_size
         self.player_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
         self.computer_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
@@ -28,5 +28,18 @@ class BattleshipGame:
         self.place_ships(self.player_board)
         self.place_ships(self.computer_board)
 
-    
+    def place_ships(self, board):
+        ships_placed = 0
+        while ships_placed < 4:
+            x = random.randint(0, self.grid_size - 1)
+            y = random.randint(0, self.grid_size - 1)
+            if board[x][y]=='O'
+                board[x][y]='X'
+                if board is self.player_board:
+                    self.player_ships.append((x, y))
+                else:
+                    self.computer_ships.append((x, y))
+                ships_placed += 1
+
+
 
