@@ -1,3 +1,32 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+import random
+
+"""
+BATTLESHIPS
+How it will work:
+There will be 4 ships placed on a 5x5 grid, randomly located around.
+You can select row and column to indicate where to shoot.
+Every hit or miss will be shown on the grid.
+If all ships are found faster than your opponent, you win.
+ otherwise you will lose
+
+ Designation:
+ "." = empty space
+ "X" = ship hit by bullet
+ "O" = miss because it didn't hit the ship.
+ "@" = the ship that is yours
+"""
+class BattleshipGame:
+
+    def__init__(self, grid_size):
+        self.grid_size = grid_size
+        self.player_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
+        self.computer_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
+        self.computer_ships = []
+        self.player_ships = []
+        self.player_hits = 0
+        self.computer_hits = 0
+        self.place_ships(self.player_board)
+        self.place_ships(self.computer_board)
+
+    
+
