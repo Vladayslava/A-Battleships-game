@@ -1,12 +1,18 @@
 import random
 
-"""
-BATTLESHIPS
-How it will work:
-There will be 4 ships placed on a 5x5 grid, randomly located around.
-You can select row and column to indicate where to shoot.
-Every hit or miss will be shown on the grid.
-If all ships are found faster than your opponent, you win.
+GRID_SIZE = 5
+
+NUM_SHIPS = 5
+
+class BattleshipGame:
+
+    """
+ BATTLESHIPS
+ How it will work:
+ There will be 4 ships placed on a 5x5 grid, randomly located around.
+ You can select row and column to indicate where to shoot.
+ Every hit or miss will be shown on the grid.
+ If all ships are found faster than your opponent, you win.
  otherwise you will lose
 
  Designation:
@@ -14,32 +20,40 @@ If all ships are found faster than your opponent, you win.
  'X' = ship hit by bullet
  'O' = miss because it didn't hit the ship.
  '@' = the ship that is yours
-"""
-class BattleshipGame:
+    """
 
-    def __init__(self, grid_size):
-        self.grid_size = grid_size
-        self.player_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
-        self.computer_board = [['O' for x in range(grid_size)] for y in range(grid_size)]
-        self.computer_ships = []
-        self.player_ships = []
-        self.player_hits = 0
-        self.computer_hits = 0
-        self.place_ships(self.player_board)
-        self.place_ships(self.computer_board)
 
-    def place_ships(self, board):
+    def create_grid():
+        return [['.' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
+
+    def place_ships(grid):
         ships_placed = 0
-        while ships_placed < 4:
-            x = random.randint(0, self.grid_size - 1)
-            y = random.randint(0, self.grid_size - 1)
-            if board[x][y]=='O'
-                board[x][y]='X'
-                if board is self.player_board:
-                    self.player_ships.append((x, y))
-                else:
-                    self.computer_ships.append((x, y))
+        while ships_placed < NUM_SHIPS:
+            row = random.randint(0, GRID_SIZE - 1)
+            col = random.randint(0, GRID_SIZE - 1)
+            if grid[row][col] == '.':
+                grid[row][col] = '@'
                 ships_placed += 1
+
+    def display_grid(grid):
+        for row in grid:
+            print(''.join(row))
+            print()
+
+    def get_random_move():
+        return random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+
+    def make_move(grid, row, col):
+        if grid[row][col] = '@':
+            grid[row][col] == 'X'
+            return True
+        elif grid[row][col] = '.': 
+            grid[row][col] = 'O'
+            return False
+        
+
+
+ 
 
 
 
