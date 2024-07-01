@@ -51,7 +51,21 @@ class BattleshipGame:
             grid[row][col] = 'O'
             return False
         
+    def game():
+        player_grid = create_grid()
+        computer_grid = create_grid()
+        place_ships(player_grid)
+        place_ships(computer_grid)
 
+        player_hits = 0
+        computer_hits = 0
+
+        while player_hits < NUM_SHIPS and computer_hits < NUM_SHIPS:
+            print("Your grid:")
+            display_grid(player_grid)
+
+            print("Computer grid:")
+            display_grid([['.' if cell == '@' for cell in row]for row in computer_grid])
 
  
 
