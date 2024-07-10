@@ -14,12 +14,14 @@ class Battleship:
         self.computer_hits = 0
         self.player_moves = []
         self.computer_moves = []
+        self.random_place(self.player_grid)
+        self.random_place(self.computer_grid)
 
     def create_grid(self):
         return [['.' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
 
 
-    def place_ships(self, grid):
+    def random_place(self, grid):
         ships_placed = 0
         while ships_placed < NUM_SHIPS:
             row = random.randint(0, GRID_SIZE - 1)
@@ -46,55 +48,52 @@ class Battleship:
             return False
 
     def validate_date(self, player_row, player_col):
-        try:
-            player_row, player_col  = int(player_row), int(player_col)
+        while True:
+            try:
+                player_row, player_col  = int(player_row), int(player_col)
 
-            if not(0 <= player_row < GRID_SIZE and 0 <= player_col < GRID_SIZE):
-                raise InvalidInputError(f'Error: Enter numbers from 0 to {GRID_SIZE - 1}.')
+                if not(0 <= player_row < GRID_SIZE and 0 <= player_col < GRID_SIZE):
+                    raise InvalidInputError(f'Error: Enter numbers from 0 to {GRID_SIZE - 1}.')
 
 
-            if [player_row, player_col] in self.player_moves:
-                raise InvalidInputError('Error: This location has already been selected. Try again.')
+                if [player_row, player_col] in self.player_moves:
+                    raise InvalidInputError('Error: This location has already been selected. Try again.')
 
-        except ValueError:
-            raise InvalidInputError('Error: Enter numbers.')
+            except ValueError:
+                raise InvalidInputError('Error: Enter numbers.')
+                return False
 
         self.player_moves.append([player_row,player_col])
-        return player_row, player_col
+        return True
 
-
-            
 
     def new_game(self):
+        """
+        Run all program functions
+        """
+
         print("Welcome to BATTLESHIPS game!")
         print(f"There will be {NUM_SHIPS} ships placed on a {GRID_SIZE} grid, randomly located around.")
         print("Top left corner is row: 0, col: 0")
         print("You can select row and column to indicate where to shoot.")
         print("If all ships are found faster than your opponent, you win, otherwise you will lose")
 
+        while player_hits < NUM_SHIPS and computer_hits < NUM_SHIPS:
 
-    #  Designation:
-    #  '.' = empty space
-    #  'X' = ship hit by bullet
-    #  'O' = miss because it didn't hit the ship.
-    #  '@' = the ship that is yours
-
-
-        place_ships(self.player_grid)
-        place_ships(self.computer_grid)
-
-        player_hits = 0
-        computer_hits = 0
-
-        while self.player_hits < NUM_SHIPS and computer_hits < NUM_SHIPS:
             print("Your grid:")
             display_grid(player_grid)
 
             print("Computer grid:")
             display_grid([['.' if cell == '@' else cell in row]for row in computer_grid])
-
-            player_row = int(input(f"Enter row between {0-GRID_SIZE-1}"))
-            player_col = int(input(f"Enter col between {0-GRID_SIZE-1}"))
+            
+            while True:
+                try:
+                    player_row = int(input(f"Enter row between {0-GRID_SIZE-1}"))
+                    player_col = int(input(f"Enter col between {0-GRID_SIZE-1}"))
+                    self.validate_date(player_row, player_col)
+                    break
+                except InvalidInputError as e:
+                    print(e)
 
             if computer_grid[player_row][player_col] == '@':
                 print('Player got a hit!')
