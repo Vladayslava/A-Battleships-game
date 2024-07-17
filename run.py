@@ -1,12 +1,9 @@
 import random
 
 GRID_SIZE = 5
-
 NUM_SHIPS = 5
 
-
 class Battleship:
-
     def __init__(self):
         self.player_grid = self.create_grid()
         self.computer_grid = self.create_grid()
@@ -18,8 +15,13 @@ class Battleship:
         self.random_place(self.computer_grid)
 
     def create_grid(self):
-        return [['.' for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
-
+        grid = []
+        for _ in range(GRID_SIZE):
+            row = []
+            for _ in range(GRID_SIZE):
+                row.append('.')
+            grid.append(row)
+        return grid
 
     def random_place(self, grid):
         ships_placed = 0
@@ -32,40 +34,22 @@ class Battleship:
 
     def display_grid(self, grid):
         for row in grid:
-            print(''.join(row))
-            print()
+            print(' '.join(row))
+        print()
 
     def get_random_move(self):
-        return random.randint(0, GRID_SIZE - 1),
-        random.randint(0, GRID_SIZE - 1)
+        return random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
 
-    def make_move(self, grid, row, col):
-        if grid[row][col] == '@':
-            grid[row][col] = 'X'
-            return True
-        elif grid[row][col] == '.':
-            grid[row][col] = 'O'
-            return False
-
-    def validate_date(self, player_row, player_col):
+    def validate_input(self, prompt, existing_moves):
         while True:
             try:
-                player_row, player_col  = int(player_row), int(player_col)
-
-                if not(0 <= player_row < GRID_SIZE and 0 <= player_col < GRID_SIZE):
-                    raise InvalidInputError(f'Error: Enter numbers from 0 to {GRID_SIZE - 1}.')
-
-
-                if [player_row, player_col] in self.player_moves:
-                    raise InvalidInputError('Error: This location has already been selected. Try again.')
-
+                value = int(input(prompt))
+                if 0 <= value < GRID_SIZE:
+                    return value
+                else:
+                    print(f"Please enter a number between 0 and {GRID_SIZE - 1}.")
             except ValueError:
-                raise InvalidInputError('Error: Enter numbers.')
-                return False
-
-        self.player_moves.append([player_row,player_col])
-        return True
-
+                print("Invalid input. Please enter a number.")
 
     def new_game(self):
         """
@@ -76,50 +60,63 @@ class Battleship:
         print(f"There will be {NUM_SHIPS} ships placed on a {GRID_SIZE} grid, randomly located around.")
         print("Top left corner is row: 0, col: 0")
         print("You can select row and column to indicate where to shoot.")
-        print("If all ships are found faster than your opponent, you win, otherwise you will lose")
+        print("If all ships are found faster than your opponent, you win, otherwise you will lose\n")
 
-        while player_hits < NUM_SHIPS and computer_hits < NUM_SHIPS:
-
+        while self.player_hits < NUM_SHIPS and self.computer_hits < NUM_SHIPS:
             print("Your grid:")
-            display_grid(player_grid)
+            self.display_grid(self.player_grid)
 
             print("Computer grid:")
-            display_grid([['.' if cell == '@' else cell in row]for row in computer_grid])
-            
-            while True:
-                try:
-                    player_row = int(input(f"Enter row between {0-GRID_SIZE-1}"))
-                    player_col = int(input(f"Enter col between {0-GRID_SIZE-1}"))
-                    self.validate_date(player_row, player_col)
-                    break
-                except InvalidInputError as e:
-                    print(e)
+            hidden_grid = []
+            for row in self.computer_grid:
+                hidden_ships = []
+                for cell in row:
+                    if cell == '@':
+                        hidden_ships.append('.')
+                    else:
+                        hidden_ships.append(cell)
+                hidden_grid.append(hidden_ships)
+            self.display_grid(hidden_grid)
 
-            if computer_grid[player_row][player_col] == '@':
+            player_row = self.validate_input(f"Enter row between 0 and {GRID_SIZE - 1}: \n", self.player_moves)
+            player_col = self.validate_input(f"Enter col between 0 and {GRID_SIZE - 1}: \n", self.player_moves)
+
+            if (player_row, player_col) in self.player_moves:
+                print("this coordinate. Try again.")
+                continue
+            else:
+                self.player_moves.append((player_row, player_col))
+
+            if self.computer_grid[player_row][player_col] == '@':
                 print('Player got a hit!')
-                computer_grid[player_row][player_col] = 'X'
-                player_hits += 1
+                self.computer_grid[player_row][player_col] = 'X'
+                self.player_hits += 1
             else:
                 print('Player missed this time')
-                computer_grid[player_row][player_col] = 'O'
+                self.computer_grid[player_row][player_col] = 'O'
 
-            computer_row, computer_col = get_random_move()
-            print(f'Computer guessed:({computer_row},{computer_col})')
+            while True:
+                computer_row, computer_col = self.get_random_move()
+                if (computer_row, computer_col) not in self.computer_moves:
+                    self.computer_moves.append((computer_row, computer_col))
+                    break
 
-            if player_grid[computer_row][computer_col] == '@':
+            print(f'Computer guessed: ({computer_row},{computer_col})')
+
+            if self.player_grid[computer_row][computer_col] == '@':
                 print('Computer got a hit!')
-                player_grid[computer_row][computer_col] = 'X'
-                computer_hits += 1
+                self.player_grid[computer_row][computer_col] = 'X'
+                self.computer_hits += 1
             else:
                 print('Computer missed this time')
-                player_grid[computer_row][computer_col] = 'O'
+                self.player_grid[computer_row][computer_col] = 'O'
 
-            print(f'Your hits:{player_hits}. Computer hits:{computer_hits}')
+            print(f'Your hits: {self.player_hits}. Computer hits: {self.computer_hits}')
 
-        if player_hits == NUM_SHIPS:
-            print: ('Congratulations! You won!')
+        if self.player_hits == NUM_SHIPS:
+            print('Congratulations! You won!')
         else:
-            print: ('The computer won! Try again!')
+            print('The computer won! Try again!')
 
 if __name__ == "__main__":
     game = Battleship()
