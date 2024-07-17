@@ -5,6 +5,9 @@ NUM_SHIPS = 5
 
 class Battleship:
     def __init__(self):
+        """
+        Initialize the game by creating grids and placing ships
+        """
         self.player_grid = self.create_grid()
         self.computer_grid = self.create_grid()
         self.player_hits = 0
@@ -15,6 +18,9 @@ class Battleship:
         self.random_place(self.computer_grid)
 
     def create_grid(self):
+        """
+        Create a GRID_SIZE x GRID_SIZE grid initialized with '.'
+        """
         grid = []
         for _ in range(GRID_SIZE):
             row = []
@@ -24,6 +30,9 @@ class Battleship:
         return grid
 
     def random_place(self, grid):
+        """
+        Randomly place NUM_SHIPS ships represented by '@' on the grid
+        """
         ships_placed = 0
         while ships_placed < NUM_SHIPS:
             row = random.randint(0, GRID_SIZE - 1)
@@ -33,14 +42,23 @@ class Battleship:
                 ships_placed += 1
 
     def display_grid(self, grid):
+        """
+        Display the grid to the console
+        """
         for row in grid:
             print(' '.join(row))
         print()
 
     def get_random_move(self):
+        """
+        Generate a random move within the grid
+        """
         return random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
 
     def validate_input(self, prompt, existing_moves):
+        """
+        Validate user input to ensure it is within the grid
+        """
         while True:
             try:
                 value = int(input(prompt))
@@ -78,8 +96,8 @@ class Battleship:
                 hidden_grid.append(hidden_ships)
             self.display_grid(hidden_grid)
 
-            player_row = self.validate_input(f"Enter row between 0 and {GRID_SIZE - 1}: \n", self.player_moves)
-            player_col = self.validate_input(f"Enter col between 0 and {GRID_SIZE - 1}: \n", self.player_moves)
+            player_row = self.validate_input(f"Enter row between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
+            player_col = self.validate_input(f"Enter col between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
 
             if (player_row, player_col) in self.player_moves:
                 print("this coordinate. Try again.")
