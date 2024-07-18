@@ -1,7 +1,7 @@
 import random
 
-GRID_SIZE = 2
-NUM_SHIPS = 2
+GRID_SIZE = 5
+NUM_SHIPS = 5
 
 
 class Battleship:
@@ -92,11 +92,17 @@ class Battleship:
         """
 
         print("Welcome to BATTLESHIPS game!\n")
-        print(f"There will be {NUM_SHIPS} ships placed on a {GRID_SIZE}x{GRID_SIZE} grid, randomly located around.\n")
+        print(
+            f"There will be {NUM_SHIPS} ships placed on"
+            f"a {GRID_SIZE}x{GRID_SIZE} grid, randomly located around.\n"
+            )
         print("Top left corner is row: 0, col: 0\n")
         print("You can select row and column to indicate where to shoot.\n")
-        print("If all ships are found faster than your opponent, you win, otherwise you will lose\n")
-        print("-" * 100)
+        print(
+            "If all ships are found faster than your opponent, "
+            "you win, otherwise you will lose\n"
+            )
+        print("-" * 70)
 
         while self.player_hits < NUM_SHIPS and self.computer_hits < NUM_SHIPS:
             print("Your grid:")
@@ -114,9 +120,15 @@ class Battleship:
                 hidden_grid.append(hidden_ships)
             self.display_grid(hidden_grid)
 
-            player_row = self.validate_grid_input(f"Enter row between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
-            player_col = self.validate_grid_input(f"Enter col between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
-            print("-" * 100)
+            player_row = self.validate_grid_input(
+                f"Enter row between 0 and {GRID_SIZE - 1}:\n",
+                self.player_moves
+                )
+            player_col = self.validate_grid_input(
+                f"Enter col between 0 and {GRID_SIZE - 1}:\n",
+                self.player_moves
+                )
+            print("-" * 70)
 
             print(f'Player guessed: ({player_row},{player_col})')
 
@@ -150,11 +162,13 @@ class Battleship:
                 print('Computer missed this time')
                 self.player_grid[computer_row][computer_col] = 'O'
 
-            print("-" * 100)
+            print("-" * 70)
 
-            print(f'Your hits: {self.player_hits}. Computer hits: {self.computer_hits}')
-            print("-" * 100)
-
+            print(
+                f'Your hits: {self.player_hits}. '
+                f'Computer hits: {self.computer_hits}'
+                )
+            print("-" * 70)
 
         if self.player_hits == NUM_SHIPS:
             print('Congratulations! You won!')
@@ -167,13 +181,15 @@ class Battleship:
         """
         while True:
             self.new_game()
-            play_again = self.validate_answer_input("Do you want to play again? (yes/no): ")
+            play_again = self.validate_answer_input(
+                "Do you want to play again? (yes/no): "
+                )
             if play_again != 'yes':
                 print("Thanks for playing!")
                 break
             else:
                 self.__init__()
-        
+
 
 if __name__ == "__main__":
     game = Battleship()
