@@ -23,7 +23,7 @@ The first player to sink all of the opponent's ships wins the game.
 
 
 ## Features
-  ### Existing Features
+### Existing Features
   + Player Grid and Computer Grid
     +  Both players, the user and the computer, have their own grids. Ships are placed randomly on these grids at the start of the game. Ships are not visible on the computer grid for the user to play fair
     ![]()
@@ -40,11 +40,11 @@ The first player to sink all of the opponent's ships wins the game.
   + Future Features
     + Allows the user to select the grid size and number of ships
     + Have ships larger than 1x1
-  ### Data Model
+### Data Model
 
 ## Testing
 
-Please refer to the [Testing.md](Testing.md) file for all test-related documentation.
+Please refer to the [TESTING.md](TESTING.md) file for all test-related documentation.
 
 ## Deployment
 This project was deployed using Code Institute's mock terminal for Heroku.

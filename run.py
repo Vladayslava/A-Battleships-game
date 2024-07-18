@@ -3,6 +3,7 @@ import random
 GRID_SIZE = 5
 NUM_SHIPS = 5
 
+
 class Battleship:
     def __init__(self):
         """
@@ -53,7 +54,10 @@ class Battleship:
         """
         Generate a random move within the grid
         """
-        return random.randint(0, GRID_SIZE - 1), random.randint(0, GRID_SIZE - 1)
+        return (
+            random.randint(0, GRID_SIZE - 1),
+            random.randint(0, GRID_SIZE - 1)
+        )
 
     def validate_input(self, prompt, existing_moves):
         """
@@ -65,7 +69,9 @@ class Battleship:
                 if 0 <= value < GRID_SIZE:
                     return value
                 else:
-                    print(f"Please enter a number between 0 and {GRID_SIZE - 1}.")
+                    print(
+                        f"Please enter a number between 0 and {GRID_SIZE - 1}"
+                        )
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
@@ -74,10 +80,10 @@ class Battleship:
         Run all program functions
         """
 
-        print("Welcome to BATTLESHIPS game!")
-        print(f"There will be {NUM_SHIPS} ships placed on a {GRID_SIZE} grid, randomly located around.")
-        print("Top left corner is row: 0, col: 0")
-        print("You can select row and column to indicate where to shoot.")
+        print("Welcome to BATTLESHIPS game!\n")
+        print(f"There will be {NUM_SHIPS} ships placed on a {GRID_SIZE}x{GRID_SIZE} grid, randomly located around.\n")
+        print("Top left corner is row: 0, col: 0\n")
+        print("You can select row and column to indicate where to shoot.\n")
         print("If all ships are found faster than your opponent, you win, otherwise you will lose\n")
 
         while self.player_hits < NUM_SHIPS and self.computer_hits < NUM_SHIPS:
@@ -100,21 +106,23 @@ class Battleship:
             player_col = self.validate_input(f"Enter col between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
 
             if (player_row, player_col) in self.player_moves:
-                print("this coordinate. Try again.")
+                print("Error this coordinate. Try again.")
                 continue
             else:
                 self.player_moves.append((player_row, player_col))
 
             if self.computer_grid[player_row][player_col] == '@':
-                print('Player got a hit!')
+                print('Player got a hit!\n')
                 self.computer_grid[player_row][player_col] = 'X'
                 self.player_hits += 1
             else:
-                print('Player missed this time')
+                print('Player missed this time\n')
                 self.computer_grid[player_row][player_col] = 'O'
 
             while True:
                 computer_row, computer_col = self.get_random_move()
+                print('computer_row: ', computer_row)
+                print('computer_col: ', computer_col)
                 if (computer_row, computer_col) not in self.computer_moves:
                     self.computer_moves.append((computer_row, computer_col))
                     break
@@ -122,11 +130,11 @@ class Battleship:
             print(f'Computer guessed: ({computer_row},{computer_col})')
 
             if self.player_grid[computer_row][computer_col] == '@':
-                print('Computer got a hit!')
+                print('Computer got a hit!\n')
                 self.player_grid[computer_row][computer_col] = 'X'
                 self.computer_hits += 1
             else:
-                print('Computer missed this time')
+                print('Computer missed this time\n')
                 self.player_grid[computer_row][computer_col] = 'O'
 
             print(f'Your hits: {self.player_hits}. Computer hits: {self.computer_hits}')
