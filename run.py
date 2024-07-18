@@ -1,7 +1,7 @@
 import random
 
-GRID_SIZE = 5
-NUM_SHIPS = 5
+GRID_SIZE = 2
+NUM_SHIPS = 2
 
 
 class Battleship:
@@ -105,6 +105,8 @@ class Battleship:
             player_row = self.validate_input(f"Enter row between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
             player_col = self.validate_input(f"Enter col between 0 and {GRID_SIZE - 1}:\n", self.player_moves)
 
+            print(f'Player guessed: ({player_row},{player_col})')
+
             if (player_row, player_col) in self.player_moves:
                 print("Error this coordinate. Try again.")
                 continue
@@ -121,8 +123,6 @@ class Battleship:
 
             while True:
                 computer_row, computer_col = self.get_random_move()
-                print('computer_row: ', computer_row)
-                print('computer_col: ', computer_col)
                 if (computer_row, computer_col) not in self.computer_moves:
                     self.computer_moves.append((computer_row, computer_col))
                     break
@@ -143,6 +143,18 @@ class Battleship:
             print('Congratulations! You won!')
         else:
             print('The computer won! Try again!')
+
+    def play(self):
+        """
+        Main game loop to start and restart the game
+        """
+        while True:
+            self.__init__()
+            self.new_game()
+            play_again = input("Do you want to play again? (yes/no): ").strip().lower()
+            if play_again != 'yes':
+                print("Thanks for playing! Goodbye.")
+                break
 
 if __name__ == "__main__":
     game = Battleship()
